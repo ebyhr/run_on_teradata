@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ncluster-sqlmr-api">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ncluster-sqlmr-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

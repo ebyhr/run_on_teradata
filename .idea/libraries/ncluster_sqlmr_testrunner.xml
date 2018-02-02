@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ncluster-sqlmr-testrunner">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ncluster-sqlmr-testrunner.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="run_on_teradata:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/run_on_teradata_jar</output-path>
+    <root id="archive" name="run_on_teradata.jar">
+      <element id="module-output" name="run_on_teradata" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/terajdbc4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ncluster-sqlmr-testrunner.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ncluster-sqlmr-runnercommon.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/tdgssconfig.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ncluster-api-util.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ncluster-sqlmr-api.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
