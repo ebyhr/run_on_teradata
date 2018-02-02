@@ -6,7 +6,7 @@ How to build (I used Intellij IDEA)
 3. Please check run_on_teradata.jar file is generated under ./out/artifacts/run_on_teradata_jar directory
 4. Run following command on terminal
 ```
-zip run_on_teradata.zip lib/tdgssconfig.jar lib/terajdbc4.jar out/artifacts/run_on_teradata_jar/run_on_teradata.jar
+zip -j run_on_teradata.zip lib/tdgssconfig.jar lib/terajdbc4.jar out/artifacts/run_on_teradata_jar/run_on_teradata.jar
 ```
 
 Install to aster instance
@@ -26,3 +26,5 @@ select * from run_on_teradata ( on (select 1)
 )
 ;
 ```
+
+The combination of version between aster and teradata depends on each environemnt. Please locate appropriate jar files before building.
