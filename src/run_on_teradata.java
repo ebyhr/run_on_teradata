@@ -27,10 +27,10 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
     {
-        String hostname = contract.getInputInfo("hostname").toString();
-        String username = contract.getInputInfo("username").toString();
-        String password = contract.getInputInfo("password").toString();
-        String query = contract.getInputInfo("query").toString();
+        String hostname = contract.useArgumentClause("hostname").toString();
+        String username = contract.useArgumentClause("username").toString();
+        String password = contract.useArgumentClause("password").toString();
+        String query = contract.useArgumentClause("query").toString();
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
             executeQuery(hostname, username, password, query);
@@ -44,7 +44,6 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
     private void executeQuery(String hostname, String username, String password, String query)
             throws SQLException
     {
-
         Driver driver = new com.teradata.jdbc.TeraDriver();
         String url = String.format("jdbc:teradata://%s", hostname);
 
@@ -60,15 +59,9 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
 
     public void operateOnSomeRows(RowIterator inputIterator, RowEmitter outputEmitter)
     {
-        while ( inputIterator.advanceToNextRow() )
-        {
-            outputEmitter.addFromRow(inputIterator);
-            outputEmitter.emitRow();
-        }
     }
 
     public void operateOnPartition(PartitionDefinition partition, RowIterator inputIterator, RowEmitter outputEmitter)
     {
-        operateOnSomeRows(inputIterator, outputEmitter);
     }
 }
