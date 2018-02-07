@@ -19,7 +19,7 @@ Install to aster instance
 Execute run_on_teradata udf
 ```sql
 select * from run_on_teradata ( on (select 1)
- hostname ('teradata.hostname.org')
+ tdpid ('teradata')
  username ('dbc')
  password ('***')
  query ('drop table schema.table')

@@ -27,13 +27,13 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
     {
-        String hostname = contract.useArgumentClause("hostname").toString();
+        String tdpid = contract.useArgumentClause("tdpid").toString();
         String username = contract.useArgumentClause("username").toString();
         String password = contract.useArgumentClause("password").toString();
         String query = contract.useArgumentClause("query").toString();
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
-            executeQuery(hostname, username, password, query);
+            executeQuery(tdpid, username, password, query);
         }
 
         InputInfo inputInfo = contract.getInputInfo();
@@ -57,11 +57,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         }
     }
 
-    public void operateOnSomeRows(RowIterator inputIterator, RowEmitter outputEmitter)
-    {
-    }
+    public void operateOnSomeRows(RowIterator inputIterator, RowEmitter outputEmitter) { }
 
-    public void operateOnPartition(PartitionDefinition partition, RowIterator inputIterator, RowEmitter outputEmitter)
-    {
-    }
+    public void operateOnPartition(PartitionDefinition partition, RowIterator inputIterator, RowEmitter outputEmitter) { }
 }
