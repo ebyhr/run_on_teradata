@@ -41,11 +41,11 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         contract.complete();
     }
 
-    private void executeQuery(String hostname, String username, String password, String query)
+    private void executeQuery(String tdpid, String username, String password, String query)
             throws SQLException
     {
         Driver driver = new com.teradata.jdbc.TeraDriver();
-        String url = String.format("jdbc:teradata://%s", hostname);
+        String url = String.format("jdbc:teradata://%s", toIpAddress(tdpid));
 
         Properties props = new Properties();
         props.setProperty("user", username);
@@ -54,6 +54,18 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         try (Connection con = driver.connect(url, props);
              Statement stmt = con.createStatement()) {
             stmt.execute(query);
+        }
+    }
+
+    private String toIpAddress(String tdpid)
+    {
+        // This switch statement depends on your environment
+        switch (tdpid.toLowerCase())
+        {
+            case "localhost" :
+                return "127.0.0.1";
+            default:
+                return tdpid;
         }
     }
 
