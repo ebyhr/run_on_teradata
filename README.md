@@ -18,11 +18,43 @@ Install to aster instance
 
 Execute run_on_teradata udf
 ```sql
+-- Execute single statement
 select * from run_on_teradata ( on (select 1)
  tdpid ('teradata')
  username ('dbc')
  password ('***')
  query ('drop table schema.table')
+)
+;
+
+-- Execute multi statements
+select * from run_on_teradata ( on (select 1)
+ tdpid ('teradata')
+ username ('dbc')
+ password ('***')
+ query ($$ drop table schema.table $$,
+        $$ create table schema.table(c1 int) $$)
+)
+;
+
+-- Use LDAP authentication (optional)
+select * from run_on_teradata ( on (select 1)
+ tdpid ('teradata')
+ username ('ldap_user_name')
+ password ('***')
+ useldap('true')
+ query ('insert into schema.target select * from schema.source')
+)
+;
+
+
+-- Ignore SQLException (optional)
+select * from run_on_teradata ( on (select 1)
+ tdpid ('teradata')
+ username ('dbc')
+ password ('***')
+ ignoreError('true')
+ query ('drop table schema.table_may_not_found')
 )
 ;
 ```
