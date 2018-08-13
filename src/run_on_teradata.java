@@ -30,6 +30,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
     private final String password ;
     private final List<String> queries;
     private final boolean ignoreError;
+    private final boolean useLdap;
 
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
@@ -39,6 +40,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         password = contract.useArgumentClause("password").getSingleValue();
         queries = contract.useArgumentClause("query").getValues();
         ignoreError = contract.hasArgumentClause("ignoreerror") ? Boolean.valueOf(contract.useArgumentClause("ignoreerror").getSingleValue()) : false;
+        useLdap = contract.hasArgumentClause("useLdap") ? Boolean.valueOf(contract.useArgumentClause("useLdap").getSingleValue()) : false;
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
             executeQueries();
@@ -53,7 +55,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
             throws SQLException
     {
         Driver driver = new com.teradata.jdbc.TeraDriver();
-        String url = String.format("jdbc:teradata://%s", toIpAddress(tdpid));
+        String url = useLdap ? String.format("jdbc:teradata://%s", toIpAddress(tdpid)) : String.format("jdbc:teradata://%s/LOGMECH=LDAP", toIpAddress(tdpid));
 
         Properties props = new Properties();
         props.setProperty("user", username);
