@@ -29,7 +29,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
     private final String username;
     private final String password ;
     private final List<String> queries;
-    private final boolean ignoreerror;
+    private final boolean ignoreError;
 
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
@@ -38,7 +38,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         username = contract.useArgumentClause("username").getSingleValue();
         password = contract.useArgumentClause("password").getSingleValue();
         queries = contract.useArgumentClause("query").getValues();
-        ignoreerror = contract.hasArgumentClause("ignoreerror") ? Boolean.valueOf(contract.useArgumentClause("ignoreerror").getSingleValue()) : false;
+        ignoreError = contract.hasArgumentClause("ignoreerror") ? Boolean.valueOf(contract.useArgumentClause("ignoreerror").getSingleValue()) : false;
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
             executeQueries();
@@ -65,7 +65,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
                 try {
                     stmt.execute(query);
                 } catch (SQLException e) {
-                    if (ignoreerror) {
+                    if (ignoreError) {
                         e.printStackTrace();
                     } else {
                         throw e;
