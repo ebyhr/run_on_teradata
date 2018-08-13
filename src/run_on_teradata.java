@@ -24,13 +24,18 @@ import java.util.Properties;
 )
 public final class run_on_teradata implements RowFunction, PartitionFunction
 {
+    private final String tdpid;
+    private final String username;
+    private final String password ;
+    private final String query;
+
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
     {
-        String tdpid = contract.useArgumentClause("tdpid").getSingleValue();
-        String username = contract.useArgumentClause("username").getSingleValue();
-        String password = contract.useArgumentClause("password").getSingleValue();
-        String query = contract.useArgumentClause("query").getSingleValue();
+        tdpid = contract.useArgumentClause("tdpid").getSingleValue();
+        username = contract.useArgumentClause("username").getSingleValue();
+        password = contract.useArgumentClause("password").getSingleValue();
+        query = contract.useArgumentClause("query").getSingleValue();
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
             executeQuery(tdpid, username, password, query);
