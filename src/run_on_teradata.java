@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Properties;
 
 @HelpInfo(
@@ -20,14 +21,14 @@ import java.util.Properties;
         longDescription = "",
         inputColumns = "*",
         outputColumns = "*",
-        author = "aster community"
+        author = ""
 )
 public final class run_on_teradata implements RowFunction, PartitionFunction
 {
     private final String tdpid;
     private final String username;
     private final String password ;
-    private final String query;
+    private final List<String> queries;
 
     public run_on_teradata(RuntimeContract contract)
             throws SQLException
@@ -35,10 +36,10 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         tdpid = contract.useArgumentClause("tdpid").getSingleValue();
         username = contract.useArgumentClause("username").getSingleValue();
         password = contract.useArgumentClause("password").getSingleValue();
-        query = contract.useArgumentClause("query").getSingleValue();
+        queries = contract.useArgumentClause("query").getValues();
 
         if (contract.isExecutionMode() && !contract.isCompleted()) {
-            executeQuery(tdpid, username, password, query);
+            executeQueries();
         }
 
         InputInfo inputInfo = contract.getInputInfo();
@@ -46,7 +47,7 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
         contract.complete();
     }
 
-    private void executeQuery(String tdpid, String username, String password, String query)
+    private void executeQueries()
             throws SQLException
     {
         Driver driver = new com.teradata.jdbc.TeraDriver();
@@ -58,7 +59,9 @@ public final class run_on_teradata implements RowFunction, PartitionFunction
 
         try (Connection con = driver.connect(url, props);
              Statement stmt = con.createStatement()) {
-            stmt.execute(query);
+            for (String query : queries) {
+                stmt.execute(query);
+            }
         }
     }
 
